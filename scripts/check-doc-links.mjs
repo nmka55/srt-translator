@@ -18,6 +18,7 @@ const files = [
   'PROJECT_STATE.md',
   'AI_LOG.md',
   'BUILD_LOG.md',
+  'SECURITY_AUDIT.md',
   ...(await markdownFiles('docs')),
 ];
 const missing = [];

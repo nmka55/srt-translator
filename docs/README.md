@@ -10,6 +10,7 @@
 | [guides/](guides/GOOGLE_TRANSLATE_SETUP.md) | Setup, provider/cost, UI and Agile workflow guides. |
 | [planning/](planning/SEMESTER_PLAN.md) | [GitHub issue history](planning/BACKLOG.md), semester milestones and course alignment. |
 | [audits/](audits/CODE_AUDIT_2026-10-08.md) | Code/deployment audit and [English → Mongolian quality spot check](audits/MONGOLIAN_SUBTITLE_REVIEW_2026-10-09.md). |
+| [Root security audit](../SECURITY_AUDIT.md) | Dated public-source/history/privacy review, accepted identity disclosures and open security findings. |
 | [mvp/](mvp/srt-translator-beta-3.html) | Unmodified original MVP archive; never use its undocumented endpoint in production. |
 | [ARCHITECTURE.md](ARCHITECTURE.md) · [DEVELOPMENT_RULES.md](DEVELOPMENT_RULES.md) | Current architecture and working rules. |
 | [AI_DETAILED_LOG.md](AI_DETAILED_LOG.md) | Detailed AI assistance evidence; brief index stays at repository root. |

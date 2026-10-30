@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-10-16 — architecture document restructured to the course format
+Last updated: 2026-10-29 — public-repository security and privacy audit
 
 ## Confirmed product
 
@@ -36,7 +36,9 @@ README, architecture and migration plans no longer instruct visitor keys or desc
 
 ## Evidence and remaining limits
 
-The archived HTML at `docs/mvp/srt-translator-beta-3.html` and local `mvp-baseline` tag (`b64bc59`) preserve the before-state. The archive's undocumented endpoint is excluded from the production build.
+The [2026-10-29 security audit](SECURITY_AUDIT.md) inspected 101 baseline tracked files, 415 unique historical file blobs across 32 reachable commits, embedded course assets and a fresh production build. No actual credentials or incidental email/home-path values were detected in current application source or the bundle. Existing Git identity/email metadata and Classroom50 account linkage remain public by the owner's explicit choice; the audit commit uses a generic identity. The lockfile audit reported six affected development packages (four high, two moderate), while the production-only audit reported zero known vulnerabilities. No dependencies, application behavior, existing history or course linkage changed. Public cost/abuse controls and the local upstream timeout/response-size gaps remain unresolved; this is not an unconditional security approval. Current verification is in BUILD_LOG.md.
+
+The archived HTML at `docs/mvp/srt-translator-beta-3.html` and baseline commit `b64bc59` preserve the before-state. Earlier records mention a local `mvp-baseline` tag; no tag refs were present in this clone during the 2026-10-29 audit. The archive's undocumented endpoint is excluded from the production build.
 
 Earlier logs record minimal live NMT/TLLM requests on 2026-09-18 using `us-central1`; Seoul `asia-northeast3` failed that smoke test. The user also reported full-file attempts and UI/quality problems. Neither is controlled live acceptance evidence for the revised grouped pipeline. On 2026-10-01, the upload-name and quota-cooldown revision passed typecheck, zero-warning lint, 84 Vitest tests, the production build, formatting, the build-artifact check and 12 mocked Chromium workflows. Current automated verification is recorded in BUILD_LOG.md, with mocked provider quality clearly separated from human review.
 

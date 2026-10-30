@@ -258,3 +258,19 @@ Windows 11, Node 22.23.3 / npm 10.9.9 (CI uses Node 24). `docs/ARCHITECTURE.md` 
 | `git diff --check` | Passed before the task commit. |
 
 Browser workflows were last run on this machine before the change (15/15 passed) and were not rerun for this documentation-only change. The existing >500 kB bundle warning remains. No paid provider call was made.
+
+## 2026-10-29 — Public-repository security and privacy audit
+
+Bundled Node 24.22.1 and temporary npm 10.9.9 on macOS. Synchronized the clean clone to `a601f65` before auditing. Installed the exact lockfile with lifecycle scripts disabled; package manifests and lockfile were unchanged. Initial sandbox DNS failures were retried with network permission. Added the root [security audit](SECURITY_AUDIT.md) and its documentation-link coverage; application behavior is unchanged.
+
+| Command/check | Outcome |
+| --- | --- |
+| `npm run check` | Passed: typecheck, zero-warning lint, 108 Vitest tests across nine files, production build and links across 47 Markdown files. |
+| `npm run format:check` | Passed. |
+| `npm run check:build` | Passed. |
+| `npm audit --package-lock-only --json` | Reported six affected development packages: four high and two moderate. Open findings; no automatic fix applied. |
+| `npm audit --omit=dev --package-lock-only --json` | Zero known production dependency vulnerabilities. |
+| Temporary signature/entropy scans and asset review | Scanned 101 baseline tracked files, 415 historical file blobs across 32 reachable commits, extracted PDF content/metadata, screenshot and fresh build. No actual credential detected. Existing Git identity/email metadata and course account linkage remain by explicit owner choice. |
+| `git diff --check` | Passed before final staging; staged-file/content review repeated before the task commit. |
+
+The temporary scanner used Git object enumeration and redacted location/category output; its method and limits are in the audit report. No local secret values were opened or copied to the report. The documentation-link checker now includes the root audit. No browser, paid provider, deployed penetration or cloud-control test was performed for this documentation/checker change. The existing >500 kB bundle warning remains. Public allowance/Firewall/quota evidence and upstream timeout/response-size limits remain unresolved. This audit uses a generic Git author/committer and preserves published history.
