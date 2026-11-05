@@ -1,10 +1,11 @@
 # Frontend mechanism
 
-Updated: 2026-10-08. `frontend/src/` is the browser app; `frontend/e2e/` holds mocked Chromium workflows.
+Updated: 2026-11-05. `frontend/src/` is the browser app; `frontend/e2e/` holds mocked Chromium workflows.
 
 | Layer | Path | What it owns |
 | --- | --- | --- |
 | App/UI | `frontend/src/app/`, `frontend/src/features/translator/` | Ant Design shell, settings, virtual paired review, editing, local job state and download. |
+| Reviewer guide | `frontend/src/features/reviewer-guide/`, `frontend/public/examples/` | Hash-addressed review instructions and the explicitly requested static English sample download. The shell keeps the hidden translator mounted so navigation preserves the file, settings, job and unsaved edits. |
 | SRT domain | `frontend/src/core/srt/` | Strict parse/serialize, original cue identity/time strings, safe supported markup. |
 | Subtitle domain | `frontend/src/core/subtitles/` | Continuation grouping, structural units, approximate redistribution, wrapping and readability checks. |
 | Provider boundary | `frontend/src/services/translation/` | `/api` calls, batching, estimates, timeout/retry, response-shape and result validation. |

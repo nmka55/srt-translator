@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-10-29 — public-repository security and privacy audit
+Last updated: 2026-11-05 — reviewer guide and downloadable test crop
 
 ## Confirmed product
 
@@ -13,6 +13,8 @@ Both official Cloud Translation models use the owner's server-side gateway. The 
 - Application source and browser tests live in `frontend/`; the shared gateway and its tests live in `backend/`. Root `api/` holds only the Vercel-required same-origin Function entrypoints. Root build/test configuration coordinates one Vite deployment. The professor/Classroom50 starter files and course resources were not moved or edited.
 
 - React/TypeScript/Vite/Ant Design with a compact header, approximate 20/80 desktop layout and virtualized paired cue cards. Theme starts from the OS; shared configuration lives in `frontend/src/app/theme.ts`. Major controls use 24 px spacing within an 8/16/24/32 px scale. Ant Design Upload handles choose/drop.
+- The header's REVIEWERS GUIDE link sits immediately left of the theme switch and opens `/#reviewers-guide`. The guide explains the audience, English-only workflow, NMT/TLLM, reading profiles, batching, review/edit/download and the owner's Mongolian group notes. Hash navigation supports direct links and browser history while keeping the translator, loaded file, settings, translations and unsaved edits mounted; reloading still loses session work. The guide uses the shared theme and returns to the translator without a reset.
+- At the owner's explicit request, `frontend/public/examples/devil-wears-prada-2-review.en.srt` supplies the local English crop (LF line endings; cue text, indexes and times unchanged) as a static test download: 461 cues ending at 00:22:33,185. It is a narrow exception to the earlier local-only movie-sample policy, not visitor-file storage or telemetry. The guide disclaims copyright ownership; redistribution rights have not been established. Google currently lists Mongolian as experimental for TLLM and supported for NMT (language documentation checked 2026-11-05). No model-quality superiority is claimed.
 - Desktop controls use a responsive 240-384 px sidebar before switching to the stacked mobile layout. Major flex/grid children, cards and feedback surfaces can shrink without horizontal overflow; the language-load Alert keeps its message readable and stacks its retry action below the text.
 - English UTF-8 SRT up to 5 MiB; balanced i/b/u markup; strict import errors; original source identity/times preserved. The header brand confirms before resetting loaded work. Help has X and OK; repository/theme controls remain compact.
 - Long loaded filenames stay within the Ant Design upload card, clamp to three visible lines and expose the complete name in a tooltip.
@@ -26,7 +28,7 @@ Both official Cloud Translation models use the owner's server-side gateway. The 
 - Cost estimates show the selected engine's whole file and remaining work. NMT counts prepared input; TLLM assumes output length equals input and labels that assumption. Credits and final billing are unknown. No guaranteed cost ceiling is claimed.
 - A shared gateway core proxies official NMT/TLLM only, validates request shape/size and sanitizes failure categories. The local Node adapter remains behind Vite's development proxy; same-origin Vercel Functions now expose the production language and translation routes. TLLM input is capped at 30,000 code points. Production fails closed until `TRANSLATION_GATEWAY_ENABLED=true`. Routine tests mock Google. Requests are currently sequential; concurrency is not part of this revision.
 
-The original fictional `examples/demo.srt` now has 51 cues: its previous 43 plus eight original cases inspired by the owner's English → Mongolian spot check. Dedicated regression fixtures exercise continuation gathering, annotations, output distribution and large lists. Complete downloaded movie subtitles remain local manual inputs rather than repository fixtures.
+The original fictional `examples/demo.srt` has 51 cues: its previous 43 plus eight original cases inspired by the owner's English → Mongolian spot check. Dedicated regression fixtures exercise continuation gathering, annotations, output distribution and large lists. Full movie subtitle files remain local manual inputs; only the explicitly requested 461-cue reviewer crop is included as a public static example.
 
 ## Corrected previous records
 
@@ -35,6 +37,8 @@ The React port previously grouped cues only on screen while sending separate str
 README, architecture and migration plans no longer instruct visitor keys or describe the already implemented local gateway as future work. The README again includes the course-required FOR/WHO/THAT/UNLIKE product-vision statement after its brief public introduction and screenshot. Historical ADR-002/003/005 and previous log entries remain labelled history. The empty `TranslationProvider.clear()` hook left by the visitor-key design was removed; no active Gemini/visitor-key/Firebase/Statistics implementation was found to delete. `GEMINI.md` and `CLAUDE.md` are coding-assistant pointers, not runtime features.
 
 ## Evidence and remaining limits
+
+The 2026-11-05 reviewer-guide change passed typecheck, zero-warning lint, 108 unit/integration tests, the production build, formatting, build-artifact scanning and local Markdown-link checks. All 17 mocked Chromium workflows passed, including direct guide loading/reloading, Back/Forward, theme and unsaved-edit preservation, navigation during an active request, sample download/upload and 390/320 px containment. Light/dark desktop and mobile screenshots were inspected; the hidden workspace stays measured but inert and transparent to preserve draft edit rows without showing controls through the guide. The existing bundle-size warning remains. No live paid translation, deployment or push was performed.
 
 The [2026-10-29 security audit](SECURITY_AUDIT.md) inspected 101 baseline tracked files, 415 unique historical file blobs across 32 reachable commits, embedded course assets and a fresh production build. No actual credentials or incidental email/home-path values were detected in current application source or the bundle. Existing Git identity/email metadata and Classroom50 account linkage remain public by the owner's explicit choice; the audit commit uses a generic identity. The lockfile audit reported six affected development packages (four high, two moderate), while the production-only audit reported zero known vulnerabilities. No dependencies, application behavior, existing history or course linkage changed. Public cost/abuse controls and the local upstream timeout/response-size gaps remain unresolved; this is not an unconditional security approval. Current verification is in BUILD_LOG.md.
 
@@ -55,6 +59,8 @@ At the owner's request on 2026-10-09, GitHub issues #17–#22 were closed with r
 The owner supplied a local 301-cue English movie-subtitle crop and translated Mongolian file for a small qualitative review on 2026-10-09. Cue IDs and timecodes match; the owner rated cues 56, 132, 151 and 189 positively, 207 roughly 4/5, and flagged native phrasing at 77, nuance at 246 and speaking perspective around 251. The note mentioning “213” alongside 251 is ambiguous because source cue 213 is a music-description cue. Model identity, manual-edit history, audio alignment and preferred corrections were not established. See [the dated spot check](docs/audits/MONGOLIAN_SUBTITLE_REVIEW_2026-10-09.md); no production translation logic changed.
 
 No reproducing deadlock was found in the inspected sequential flow, but the local gateway's upstream fetch has no separate server-side timeout. Client timeout and the Vercel 30-second Function limit do not create a spending cap or prove every hang impossible. Provider output-size and public rate/allowance enforcement are also open; see the audit rather than treating this refactor as a security certification.
+
+Correction confirmed by the owner on 2026-11-05: the numbered quality notes refer to **groups**, not cue numbers. The reviewer guide labels them accordingly and preserves the separate cue-251 mention for Group 213. The newly supplied 461-cue crop differs from the earlier sample; its Group 213 does not contain cue 251, so the guide explicitly asks reviewers to check both locations. The earlier audit remains historical evidence with a correction note; no exact cross-version passage mapping or live translation benchmark is claimed.
 
 ## Unscheduled gaps and prerequisites
 

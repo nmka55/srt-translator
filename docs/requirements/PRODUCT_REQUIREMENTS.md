@@ -2,7 +2,7 @@
 
 Version: 0.2 — voice memo revision
 
-Updated: 2026-10-08 — modular folder layout and malformed-response audit
+Updated: 2026-11-05 — reviewer-guide navigation and test example
 
 Owner: one developer. Current decisions: ADR-001 (conditional telemetry only), ADR-004 (owner-funded NMT/TLLM gateway), ADR-006 (joined speech and approximate redistribution). The voice memo supersedes earlier NMT-per-cue and visitor-key instructions. [Revision prompt](REQUIREMENTS_REVISION_PROMPT.md) records the requested work; [revision audit](../audits/REQUIREMENTS_REVISION_AUDIT.md) records evidence and gaps.
 
@@ -32,6 +32,7 @@ Not in this increment: Gemini, visitor keys, accounts/payments, statistics, movi
 | FR-002 | No footer. | Shell review. |
 | FR-003 | Approximately 20% desktop controls / 80% preview, usable at narrower widths. Major panels, cards, feedback and actions must shrink or wrap without horizontal overflow; mobile stacks the sidebar and preview at full width. | Desktop/mobile browser overflow checks and visual review. |
 | FR-004 | Initialize theme from OS on page load; manual sun/moon switch and next-theme tooltip; all standard components use the shared theme. | Dark OS load and switch tests. |
+| FR-005 | Put REVIEWERS GUIDE immediately left of the theme switch. Open a separate, directly linkable guide view with browser Back/Forward and a return action that preserves the mounted translator session, including unsaved edits. Explain the review workflow, link Google's model-specific language support, offer the owner-supplied 22-minute English test crop, and label the owner's quality notes as groups with the Group 213/cue 251 mismatch disclosed. | Mocked browser navigation/edit/download, direct-link/reload and mobile-containment checks; downloadable crop parses as 461 cues. |
 | FR-010 | Local choose/drop English UTF-8 SRT, at most 5 MiB; report malformed, unsupported or empty files. Long loaded names remain inside the upload card and the complete name is discoverable. | Parser/file tests and browser upload/overflow check. |
 | FR-011 | Retain source order, indexes, exact time strings, multiline source and supported markup. | Round trips and downloaded output. |
 | FR-012 | Searchable target-language names/codes loaded automatically from official provider data. Exclude English as the fixed source. | Language-loading and selection tests. |
@@ -112,7 +113,7 @@ Movie metadata, matching, IMDb identifiers and any permitted API integration rem
 
 - Requested acceptance criteria and focused regression tests pass.
 - Current typecheck, lint, tests, production build and relevant browser/build checks pass; report actual commands, limitations and skipped checks.
-- No unrelated user files, secrets or unlicensed fixtures are introduced.
+- No unrelated user files, secrets or unlicensed fixtures are introduced. Explicit owner-requested exception (2026-11-05): the supplied 461-cue movie crop is a static reviewer download with a no-ownership notice; redistribution rights remain unverified. This exception does not authorize collecting or storing visitor subtitles.
 - Accessibility, loading, errors, cancellation, retry and output correctness are considered.
 - Requirements/architecture/state and affected setup/rules are consistent with code.
 - Append one readable line to AI_LOG.md and full course-format evidence to docs/AI_DETAILED_LOG.md; human reflections remain human-authored or explicitly TBD.

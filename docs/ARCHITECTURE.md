@@ -52,7 +52,8 @@ flowchart LR
 
 ### Frontend (Presentation and Subtitle Logic Layer)
 
-- Shows a compact header (logo/reset, theme switch, help, repository link), a settings sidebar and a subtitle preview, about 20% / 80% on desktop and stacked on mobile.
+- Shows a compact header (logo/reset, REVIEWERS GUIDE, theme switch, help, repository link), a settings sidebar and a subtitle preview, about 20% / 80% on desktop and stacked on mobile.
+- Uses `/#reviewers-guide` for a directly linkable guide view. Hash navigation retains the mounted translator and unsaved edit forms; Back/Forward and return links preserve session work. `frontend/src/features/reviewer-guide/ReviewerGuide.tsx` owns the guide content, and the shared shell keeps theme and active-job warnings. Vite copies the explicitly requested static crop from `frontend/public/examples/` into the build; no router dependency or backend endpoint is needed.
 - Reads the chosen `.srt` file locally and strictly validates it (UTF-8, up to 5 MiB, balanced `<i>`, `<b>`, `<u>` only).
 - Groups continuing speech, prepares translation batches and estimates characters, requests and list-price cost.
 - Sends batches one at a time to the gateway, shows progress, elapsed time and attempts, and supports cancel and retry.
@@ -71,7 +72,7 @@ flowchart LR
 
 - Google Cloud Translation receives only the subtitle text strings needed for translation.
 - It returns one translated string per submitted string. The app does not rely on Google preserving any invented cue markers.
-- No database or file storage exists in this project.
+- No database or visitor-subtitle storage exists in this project. The bundled reviewer sample is a static frontend asset.
 
 ### Code map — what each part does
 
@@ -137,7 +138,7 @@ The subtitle domain code (`core/`) does not import React or network code. Google
 
 ## 5. Data Management
 
-This project has **no database and no server-side storage**. All subtitle data lives in browser memory for the open tab.
+This project has **no database and no server-side storage of visitor subtitles**. Uploaded subtitles and translations live in browser memory for the open tab. The owner explicitly requested one bundled static reviewer example on 2026-11-05: a 461-cue English crop ending at 00:22:33,185. This public download is a supplied app asset, not visitor-file persistence, telemetry or a subtitle archive; its copyright ownership is disclaimed and redistribution rights are unverified.
 
 **Cue** (parsed from the file, `frontend/src/core/srt/srt.ts`)
 - `id` — internal ID such as `cue-1`

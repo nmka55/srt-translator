@@ -175,6 +175,130 @@ test('invalid input is visible and cannot start a job', async ({ page }) => {
   ).toBeDisabled();
 });
 
+test('reviewer navigation keeps translation, edits and theme in the same session', async ({
+  page,
+}) => {
+  await configure(page);
+  await page
+    .getByRole('button', { name: 'Start translation', exact: true })
+    .click();
+  await expect(
+    page.getByRole('button', { name: 'Download translated SRT' }),
+  ).toBeEnabled();
+  await page.getByRole('button', { name: 'Edit cue 7', exact: true }).click();
+  await page
+    .getByLabel('Edit translation 7', { exact: true })
+    .fill('An unsaved review edit.');
+  await page.getByRole('switch', { name: 'Dark theme' }).click();
+
+  const guideLink = page.getByRole('link', {
+    name: 'REVIEWERS GUIDE',
+    exact: true,
+  });
+  const guideBox = await guideLink.boundingBox();
+  const switchBox = await page
+    .getByRole('switch', { name: 'Dark theme' })
+    .boundingBox();
+  expect(guideBox!.x + guideBox!.width).toBeLessThanOrEqual(switchBox!.x);
+  await guideLink.click();
+  await expect(page).toHaveURL(/#reviewers-guide$/);
+  await expect(
+    page.getByRole('heading', { name: 'Reviewers Guide', exact: true }),
+  ).toBeFocused();
+  await expect(page.locator('.workspace')).toBeHidden();
+  await expect(page.locator('.workspace')).toHaveCSS('opacity', '0');
+  await expect(page.locator('.workspace')).toHaveAttribute('inert', '');
+  await expect(page.getByRole('switch', { name: 'Dark theme' })).toBeChecked();
+  await expect(guideLink).toHaveAttribute('aria-current', 'page');
+  await page.screenshot({ path: 'test-results/reviewer-guide-dark.png' });
+
+  await page.goBack();
+  await expect(
+    page.getByLabel('Edit translation 7', { exact: true }),
+  ).toHaveValue('An unsaved review edit.');
+  await expect(
+    page.getByRole('button', { name: 'Download translated SRT' }),
+  ).toBeEnabled();
+  await page.goForward();
+  await expect(page).toHaveTitle('Reviewers Guide · SRT Translator');
+  await page
+    .getByRole('link', { name: 'Back to translator', exact: true })
+    .first()
+    .click();
+  await expect(page).toHaveURL(/#translator$/);
+  await expect(
+    page.getByLabel('Edit translation 7', { exact: true }),
+  ).toHaveValue('An unsaved review edit.');
+  await page.getByRole('button', { name: 'Save', exact: true }).click();
+  const downloadEvent = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download translated SRT' }).click();
+  const download = await downloadEvent;
+  expect(await readFile((await download.path())!, 'utf8')).toContain(
+    'An unsaved review edit.',
+  );
+});
+
+test('reviewer deep link is responsive and downloads the usable English crop', async ({
+  page,
+}) => {
+  await page.goto('./#reviewers-guide');
+  await expect(
+    page.getByRole('heading', { name: 'Reviewers Guide', exact: true }),
+  ).toBeVisible();
+  await page.screenshot({ path: 'test-results/reviewer-guide-light.png' });
+  await page.reload();
+  await expect(
+    page.getByRole('heading', { name: 'Reviewers Guide', exact: true }),
+  ).toBeVisible();
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 844 });
+    await expect(
+      page.getByRole('link', { name: 'REVIEWERS GUIDE', exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('switch', { name: 'Dark theme' }),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBe(true);
+    const table = page.getByRole('table');
+    await table.scrollIntoViewIfNeeded();
+    await expect(
+      table.getByRole('columnheader', { name: 'Group', exact: true }),
+    ).toHaveCSS('white-space', 'nowrap');
+    const bounds = await table.boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
+    await page.screenshot({
+      path: `test-results/reviewer-guide-mobile-${width}.png`,
+    });
+  }
+  const downloadEvent = page.waitForEvent('download');
+  await page.getByRole('link', { name: 'Download example SRT' }).click();
+  const download = await downloadEvent;
+  expect(download.suggestedFilename()).toBe(
+    'devil-wears-prada-2-review.en.srt',
+  );
+  const source = await readFile((await download.path())!, 'utf8');
+  const cues = parseSrt(source);
+  expect(cues).toHaveLength(461);
+  expect(cues.at(-1)?.end).toBe('00:22:33,185');
+  await page
+    .getByRole('link', { name: 'Back to translator', exact: true })
+    .first()
+    .click();
+  await page.locator('input[type=file]').setInputFiles({
+    name: download.suggestedFilename(),
+    mimeType: 'application/x-subrip',
+    buffer: Buffer.from(source),
+  });
+  await expect(
+    page.getByText('461 cues loaded · stays on this device'),
+  ).toBeVisible();
+});
+
 test('language failure feedback stays readable and contained', async ({
   page,
 }) => {
@@ -512,6 +636,16 @@ test('cancellation stops a pending request and disables download', async ({
   await expect(
     page.getByText('Keep this tab open and in the foreground', { exact: true }),
   ).toBeVisible();
+  await page
+    .getByRole('link', { name: 'REVIEWERS GUIDE', exact: true })
+    .click();
+  await expect(
+    page.getByText('Translation is running', { exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole('link', { name: 'Back to translator', exact: true })
+    .first()
+    .click();
   await page
     .getByRole('button', { name: 'Cancel translation', exact: true })
     .click();

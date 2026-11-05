@@ -9,7 +9,10 @@ button,
 input {
   font: inherit;
 }
-.app {
+.app.ant-layout {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100dvh;
   background: var(--page);
   color: var(--text);
   min-height: 100vh;
@@ -19,6 +22,7 @@ a {
   color: var(--accent);
 }
 .app-header {
+  grid-area: 1 / 1;
   height: 52px;
   padding: 0 16px;
   line-height: normal;
@@ -66,8 +70,82 @@ a {
   gap: 8px;
 }
 .workspace {
+  grid-area: 2 / 1;
   height: calc(100vh - 52px);
   min-height: 0;
+}
+.workspace[hidden] {
+  /* Keep the measured viewport and draft edit rows alive behind the guide. */
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+}
+.reviewer-guide {
+  grid-area: 2 / 1;
+  z-index: 1;
+  background: var(--page);
+  height: calc(100dvh - 52px);
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--space-bottom) var(--space-medium);
+}
+.reviewer-guide-inner {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+.reviewer-guide h1 {
+  margin-top: var(--space-large);
+}
+.reviewer-guide h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+.reviewer-guide h3 {
+  margin-top: 0;
+  font-size: 17px;
+}
+.reviewer-guide-intro {
+  font-size: 17px;
+}
+.reviewer-guide ol {
+  padding-left: var(--space-large);
+}
+.reviewer-guide li + li {
+  margin-top: var(--space-small);
+}
+.reviewer-steps li + li {
+  margin-top: var(--space-bottom);
+}
+.reviewer-guide .sample-note {
+  margin-top: var(--space-small);
+  font-size: 12px;
+}
+.reviewer-quality-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-medium);
+  text-align: left;
+}
+.reviewer-quality-table caption {
+  text-align: left;
+  color: var(--muted);
+  padding-bottom: var(--space-small);
+}
+.reviewer-quality-table th,
+.reviewer-quality-table td {
+  padding: var(--space-small) var(--space-medium);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.reviewer-quality-table thead {
+  background: var(--hover);
+}
+.reviewer-quality-table th:first-child {
+  width: 80px;
+  white-space: nowrap;
 }
 .sidebar.ant-layout-sider {
   padding: 0;
@@ -449,17 +527,19 @@ a {
   }
 }
 @media (max-width: 640px) {
-  .app {
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-  }
   .app-header {
     height: auto;
     min-height: 52px;
     flex-wrap: wrap;
-    padding: 18px;
-    gap: 18px;
+    padding: var(--space-medium);
+    gap: var(--space-medium);
+  }
+  .header-actions {
+    flex-wrap: wrap;
+  }
+  .reviewer-guide {
+    flex: 1 1 auto;
+    height: auto;
   }
   .workspace.ant-layout-has-sider {
     display: flex;

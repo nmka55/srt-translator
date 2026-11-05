@@ -274,3 +274,20 @@ Bundled Node 24.22.1 and temporary npm 10.9.9 on macOS. Synchronized the clean c
 | `git diff --check` | Passed before final staging; staged-file/content review repeated before the task commit. |
 
 The temporary scanner used Git object enumeration and redacted location/category output; its method and limits are in the audit report. No local secret values were opened or copied to the report. The documentation-link checker now includes the root audit. No browser, paid provider, deployed penetration or cloud-control test was performed for this documentation/checker change. The existing >500 kB bundle warning remains. Public allowance/Firewall/quota evidence and upstream timeout/response-size limits remain unresolved. This audit uses a generic Git author/committer and preserves published history.
+
+## 2026-11-05 — Reviewer guide and static English example
+
+macOS, temporary standard Node 24.22.1 / npm 11.19.1, locked dependencies restored with `npm ci --ignore-scripts`. The app-bundled Node initially rejected the existing Rolldown native binding because of macOS signing identities; a standard runtime resolved it. npm registry DNS and the preview socket were blocked in the sandbox and retried with permission. The installed Chromium cache was older than locked Playwright, so its required Chromium Headless Shell 153.0.8010.12 was installed in a temporary directory. No manifest or lockfile changed.
+
+| Command/check | Outcome |
+| --- | --- |
+| `npm run check` | Passed: typecheck, zero-warning lint, 108 Vitest tests across nine files, production build and local links across 47 Markdown files. |
+| `npm run format:check` | Passed. |
+| `npm run check:build` | Passed: no legacy endpoint, environment-key marker, key-shaped literal, source map or archived HTML in the build. |
+| `PLAYWRIGHT_BROWSERS_PATH=/private/tmp/srt-reviewer-browsers npm run test:e2e` | Passed all 17 mocked Chromium workflows. New coverage includes guide placement, direct loading/reloading, history, theme, draft edit preservation, example download/upload and 390/320 px containment; the pending-request cancellation test also visits the guide. |
+| Visual review | Inspected desktop light/dark and mobile screenshots. Fixed underlying Ant Design controls showing through the guide and prevented narrow-screen group-number wrapping before the final passing run. Screenshots remain ignored test artifacts. |
+| Static sample | Browser download parsed as 461 cues with final end time `00:22:33,185`; upload succeeded. The supplied file uses a neutral public filename and LF line endings; cue text, indexes, timecodes and its UTF-8 BOM are unchanged. |
+| `npm run test:e2e -- --grep 'reviewer deep link'` | Passed again after LF normalization, including a fresh build, sample download/parse/upload and mobile layout. |
+| `npm run check:docs`, `git diff --check` | Rechecked after documentation/log updates before the local task commit. |
+
+The guide is `/#reviewers-guide`; no router, gateway, provider or subtitle algorithm changed. Keeping the inactive workspace measured, inert and transparent preserves virtualized draft forms. The owner clarified that quality ratings identify groups, not cues; Group 213/cue 251 remains an explicitly disclosed mismatch in this sample. The owner requested this static crop despite the earlier local-only sample rule; no copyright ownership or redistribution license is asserted. The existing >500 kB bundle warning, production-control prerequisites and live language/timing evidence remain open. No paid translation, public deployment or push was performed.

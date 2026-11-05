@@ -1,5 +1,7 @@
 # Small English → Mongolian subtitle review
 
+**Historical interpretation corrected 2026-11-05:** The owner clarified that the numbered ratings below are **group numbers**, not source cue numbers. The original cue/time associations in this dated audit are retained as history and must not be treated as verified passage mappings. The reviewer guide uses groups 56, 77, 132, 151, 189, 207, 213 and 246, preserving cue 251 as a separate reference in the Group 213 note. The newly supplied 461-cue crop is now bundled at the owner's explicit request; it differs from the original 301-cue local test and its Group 213 does not contain cue 251. No exact cross-version mapping has been established.
+
 Date: 2026-10-09. Evidence: the owner-supplied 301-cue English crop and its translated `.mn-2.srt` file, inspected locally. Neither movie subtitle file is copied into this repository. The owner described this as a Google translation test, but the files do not identify NMT versus TLLM, request settings, or any manual edits. No movie-audio review or controlled model comparison was performed here.
 
 The two files contain 301 cues with matching indexes and exact start/end time strings. This is structural evidence only; it does not establish fluent Mongolian or semantic alignment within a cue.

@@ -37,6 +37,7 @@ import { continuationGroups, type Profile } from '../core/subtitles/subtitles';
 import { PRICE_DATE } from '../services/translation/batches';
 import type { TranslationModel } from '../services/translation/googleTranslate';
 import { VirtualCueList } from '../features/translator/VirtualCueList';
+import { ReviewerGuide } from '../features/reviewer-guide/ReviewerGuide';
 
 import { appTheme, spacing } from './theme';
 
@@ -84,6 +85,24 @@ function Translator({
   const viewport = useRef<HTMLDivElement>(null);
   const [follow, setFollow] = useState(true);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [showGuide, setShowGuide] = useState(
+    () => window.location.hash === '#reviewers-guide',
+  );
+  const previousShowGuide = useRef(showGuide);
+  useEffect(() => {
+    const onHashChange = () =>
+      setShowGuide(window.location.hash === '#reviewers-guide');
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+  useEffect(() => {
+    document.title = showGuide
+      ? 'Reviewers Guide · SRT Translator'
+      : 'SRT Translator';
+    if (previousShowGuide.current && !showGuide)
+      viewport.current?.focus({ preventScroll: true });
+    previousShowGuide.current = showGuide;
+  }, [showGuide]);
   const groups = useMemo(() => continuationGroups(app.cues), [app.cues]);
   const activeIds = useMemo(() => new Set(app.activeIds), [app.activeIds]);
   const translatedCount = Object.keys(app.translations).length;
@@ -121,8 +140,16 @@ function Translator({
         <Button
           type="text"
           className="brand"
-          aria-label="Reset translator and return home"
+          aria-label={
+            showGuide
+              ? 'Return to translator'
+              : 'Reset translator and return home'
+          }
           onClick={() => {
+            if (showGuide) {
+              window.location.hash = 'translator';
+              return;
+            }
             if (
               (app.cues.length || app.busy) &&
               !window.confirm(
@@ -138,7 +165,14 @@ function Translator({
           </span>
           <span>SRT Translator</span>
         </Button>
-        <Flex className="header-actions" align="center" gap="middle">
+        <Flex className="header-actions" align="center" gap={spacing.small}>
+          <Button
+            size="small"
+            href="#reviewers-guide"
+            aria-current={showGuide ? 'page' : undefined}
+          >
+            REVIEWERS GUIDE
+          </Button>
           <Tooltip
             title={dark ? 'Switch to light theme' : 'Switch to dark theme'}
           >
@@ -194,7 +228,14 @@ function Translator({
           gateway. Keep this tab open and in the foreground while a job runs.
         </p>
       </Modal>
-      <Layout className="workspace">
+      {showGuide && <ReviewerGuide busy={app.busy} />}
+      {/* Keep session state and unsaved cue edits mounted during navigation. */}
+      <Layout
+        className="workspace"
+        hidden={showGuide}
+        inert={showGuide}
+        aria-hidden={showGuide}
+      >
         <Sider
           className="sidebar"
           width="clamp(240px, 20vw, 384px)"
@@ -589,7 +630,7 @@ function Translator({
           )}
         </Content>
       </Layout>
-      {!follow && app.busy && (
+      {!showGuide && !follow && app.busy && (
         <Button
           className="follow-button"
           type="primary"

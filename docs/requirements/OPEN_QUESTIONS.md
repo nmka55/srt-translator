@@ -34,7 +34,7 @@ No key or billing values need to be pasted into a conversation. The ignored loca
 11. Sync this refactor commit into the personal fork when ready; verify remote CI and the Vercel frontend/Function deployment at that exact commit. The earlier public language-route check does not verify this commit or paid translation. Decide which additional desktop browsers to verify.
 12. Language-specific readability profiles beyond the English-derived default remain open. Do not claim universal grammatical accuracy.
 
-The owner's cue-77 native-counting concern, cue-246 nuance concern and cue-251 speaking-perspective concern need preferred human corrections and, for cue 251, a comparison of joined provider output with local redistribution. The review note's “213” reference is ambiguous; source cue 213 is a music description.
+The owner clarified on 2026-11-05 that the numbered review notes refer to groups: Group 77 has a native-counting concern, Group 246 a nuance concern, and Group 213 a speaking-perspective concern with a separate reference to cue 251. Preferred corrections and an exact passage mapping are still needed. The current 461-cue reviewer download differs from the earlier crop and its Group 213 does not contain cue 251; do not assume those references identify the same passage or assign the error to provider output versus local redistribution without evidence.
 
 ## Conditional questions — not active blockers
 
